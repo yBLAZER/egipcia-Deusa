@@ -1,0 +1,235 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  height: 100%;
+  overflow: hidden;
+  background: black;
+  color: white;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+#container {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  background: black;
+}
+
+/* Olho egípcio pontilhado */
+#eye {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 10rem;
+  cursor: pointer;
+  user-select: none;
+  filter: drop-shadow(0 0 5px #00ff00);
+  color: transparent;
+  -webkit-text-stroke: 1.5px #00ff00;
+  text-shadow:
+    1px 1px 0 #0f0,
+    2px 0 0 #0f0,
+    0 2px 0 #0f0,
+    2px 2px 0 #0f0;
+  z-index: 10;
+}
+
+/* Boom animation */
+@keyframes boomFlash {
+  0%, 100% { filter: none; }
+  25% { filter: hue-rotate(90deg) brightness(1.5); }
+  50% { filter: hue-rotate(180deg) brightness(0.7); }
+  75% { filter: hue-rotate(270deg) brightness(1.2); }
+}
+
+/* Rotação */
+@keyframes spin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(1080deg); }
+}
+
+/* Universo */
+#universeCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: black;
+  z-index: 1;
+  display: none;
+}
+
+/* Estrelas fracas para o deserto */
+#universeCanvas.desert-mode {
+  opacity: 0.2; /* Estrelas bem fraquinhas */
+}
+
+/* Textos universo */
+#universeText {
+  position: absolute;
+  top: 20vh;
+  width: 80vw;
+  left: 10vw;
+  font-size: 1.5rem;
+  line-height: 2rem;
+  opacity: 0;
+  color: white;
+  z-index: 2;
+  text-align: center;
+  transition: opacity 2s ease-in-out;
+}
+
+/* Estrela flutuante */
+#floatingStar {
+  position: absolute;
+  font-size: 7rem;
+  color: #0f0;
+  cursor: pointer;
+  user-select: none;
+  text-shadow: 0 0 10px #0f0;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  animation: floatStar 4s ease-in-out infinite;
+  display: none;
+  z-index: 3;
+}
+
+@keyframes floatStar {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-50%, -60%) scale(1.3); }
+}
+
+/* Cena deserto */
+#desertScene {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: transparent; /* Fundo transparente para ver as estrelas */
+  display: none;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  z-index: 4;
+}
+
+#pyramidConstellation {
+  position: absolute;
+  top: 10vh;
+  width: 300px;
+  height: 200px;
+  background: transparent;
+}
+
+.star-dot {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: white;
+  border-radius: 50%;
+  animation: twinkle 1.5s infinite alternate;
+}
+
+@keyframes twinkle {
+  from { opacity: 0.5; }
+  to { opacity: 1; }
+}
+
+#desertText {
+  width: 80vw;
+  font-size: 1.3rem;
+  color: #fff;
+  text-shadow: 2px 2px 5px #000;
+  text-align: center;
+  padding-bottom: 10vh;
+  opacity: 0;
+  transition: opacity 2s ease-in-out;
+  z-index: 5;
+}
+
+/* Cena galáxia */
+#galaxyScene {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: transparent; /* Transparente para ver estrelas */
+  display: none;
+  z-index: 6;
+  animation: galaxySpin 10s linear infinite;
+}
+
+@keyframes galaxySpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.galaxy-dot {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  animation: colorShift 5s infinite;
+}
+
+@keyframes colorShift {
+  0% { background: white; }
+  25% { background: #00ff00; }
+  50% { background: purple; }
+  75% { background: black; }
+  100% { background: white; }
+}
+
+/* Coração e palavras meteoro */
+#loveStars {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 7;
+  display: none;
+}
+
+.loveStar, .heart {
+  position: absolute;
+  font-size: 1.2rem;
+  text-shadow: 0 0 3px #fff;
+  animation: shootingStar 4s linear forwards;
+  user-select: none;
+}
+
+.loveStar {
+  color: transparent;
+  -webkit-text-stroke: 1px white;
+  background: linear-gradient(90deg, white, transparent);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.heart {
+  font-size: 1.5rem;
+  color: white;
+}
+
+@keyframes shootingStar {
+  from {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+  to {
+    opacity: 0;
+    transform: translate(50px, 50px);
+  }
+}
