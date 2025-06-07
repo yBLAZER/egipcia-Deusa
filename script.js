@@ -242,18 +242,35 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Estrelas cadentes com palavras e coração
-  function showLoveStars() {
-    console.log('Showing love stars scene');
-    resetStars(); // Estrelas normais
-    universeCanvas.style.display = 'block';
-    universeCanvas.classList.remove('desert-mode');
-    loveStars.style.display = 'block';
-    state = 'loveStars';
+ function showLoveStars() {
+  console.log('Showing love stars scene');
+  resetStars(); // Estrelas normais
+  universeCanvas.style.display = 'block';
+  universeCanvas.classList.remove('desert-mode');
+  loveStars.style.display = 'flex'; // Usaremos flex para centralizar
+  state = 'loveStars';
 
-    const phrases = [
-      'Eu te amo', 'Minha fofa', 'Minha deusa egípcia', 'Minha rainha', 'Minha dona',
-      'Meu xuxu', 'Minha fofinha', 'Eu te adoro', 'Obrigado por tudo', 'Meu amor'
-    ];
+  // Limpa conteúdo anterior
+  loveStars.innerHTML = `
+    <div id="finalMessage">
+      <div class="finalHeader">EU TE AMO MEU AMOR</div>
+      <div class="finalSub">Obrigado por tudo mesmo!! Obrigado por estar comigo</div>
+      <div class="finalFromTo">
+        <div>De: <strong>Matheus Eduardo (Zezinho)</strong></div>
+        <div>Para: <strong>Crisllayne Kerolayne (Minha cabrita)</strong></div>
+      </div>
+    </div>
+  `;
+
+  // Quando música acabar, volta pro início
+  bgMusic.onended = () => {
+    console.log('Music ended, resetting to initial state');
+    loveStars.style.display = 'none';
+    universeCanvas.style.display = 'none';
+    state = 'initial';
+    eye.style.display = 'block';
+    bgMusic.currentTime = 0;
+  };
 
     function createMeteors() {
       loveStars.innerHTML = ''; // Limpa meteores anteriores
