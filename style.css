@@ -68,7 +68,7 @@ body, html {
 
 /* Estrelas fracas para o deserto */
 #universeCanvas.desert-mode {
-  opacity: 0.2; /* Estrelas bem fraquinhas */
+  opacity: 0.2;
 }
 
 /* Textos universo */
@@ -114,7 +114,7 @@ body, html {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: transparent; /* Fundo transparente para ver as estrelas */
+  background: transparent;
   display: none;
   flex-direction: column;
   justify-content: flex-end;
@@ -122,11 +122,11 @@ body, html {
   z-index: 4;
 }
 
-#pyramidConstellation {
+#heartConstellation {
   position: absolute;
   top: 10vh;
   width: 300px;
-  height: 200px;
+  height: 250px;
   background: transparent;
 }
 
@@ -163,10 +163,13 @@ body, html {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: transparent; /* Transparente para ver estrelas */
+  background: transparent;
   display: none;
   z-index: 6;
   animation: galaxySpin 10s linear infinite;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 @keyframes galaxySpin {
@@ -206,6 +209,7 @@ body, html {
   animation: pulse 1.5s infinite;
   text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
   padding: 20px;
+  text-align: center;
 }
 
 .finalHeader {
@@ -225,6 +229,33 @@ body, html {
   line-height: 1.5;
 }
 
+#choiceButtons {
+  margin-top: 20px;
+}
+
+.choiceBtn {
+  padding: 10px 20px;
+  margin: 0 10px;
+  font-size: 1.2rem;
+  background: transparent;
+  border: 2px solid #00ff00;
+  color: #00ff00;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: all 0.3s;
+}
+
+.choiceBtn:hover {
+  background: #00ff00;
+  color: black;
+}
+
+.choiceText {
+  font-size: 1.2rem;
+  color: #00ff00;
+  margin: 0 10px;
+}
+
 @keyframes pulse {
   0% { opacity: 0.5; }
   50% { opacity: 1; }
@@ -235,7 +266,6 @@ body, html {
   from { opacity: 0; }
   to { opacity: 1; }
 }
-
 
 .loveStar, .heart {
   position: absolute;
@@ -267,4 +297,23 @@ body, html {
     opacity: 0;
     transform: translate(50px, 50px);
   }
+}
+
+#infiniteMessage {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #ff00ff;
+  text-shadow: 0 0 20px #ff00ff, 0 0 30px #ff00ff;
+  animation: infiniteSpin 10s linear infinite; /* Girando na cena infinita */
+  text-align: center;
+}
+
+@keyframes infiniteSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes infiniteGlow {
+  from { text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff; }
+  to { text-shadow: 0 0 20px #ff00ff, 0 0 40px #ff00ff; }
 }
