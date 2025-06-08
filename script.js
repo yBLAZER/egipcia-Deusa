@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const universeText = document.getElementById('universeText');
   const floatingStar = document.getElementById('floatingStar');
   const desertScene = document.getElementById('desertScene');
-  const pyramidConstellation = document.getElementById('pyramidConstellation');
+  const heartConstellation = document.getElementById('heartConstellation');
   const desertText = document.getElementById('desertText');
   const galaxyScene = document.getElementById('galaxyScene');
   const loveStars = document.getElementById('loveStars');
@@ -69,7 +69,9 @@ document.addEventListener('DOMContentLoaded', () => {
   let universeAnimId;
   function animateUniverse() {
     drawUniverse();
-    if (state !== 'initial' && state !== 'boom' && state !== 'starFloating') {
+    if (state !== 'initial' && state !== 'boom' && state !== 'starFloating' && state !== 'infinite') {
+      universeAnimId = requestAnimationFrame(animateUniverse);
+    } else if (state === 'infinite') {
       universeAnimId = requestAnimationFrame(animateUniverse);
     } else {
       cancelAnimationFrame(universeAnimId);
@@ -103,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
   ];
 
   // Estado do site
-  let state = 'initial'; // initial, boom, universe, starFloating, desert, galaxy, loveStars
+  let state = 'initial'; // initial, boom, universe, starFloating, desert, galaxy, loveStars, infinite
   let msgIndex = 0;
   let textVisible = false;
 
@@ -159,22 +161,25 @@ document.addEventListener('DOMContentLoaded', () => {
     state = 'starFloating';
   }
 
-  // Criar constelação em forma de pirâmide
-  function createPyramidConstellation() {
-    pyramidConstellation.innerHTML = '';
+  // Criar constelação em forma de coração
+  function createHeartConstellation() {
+    heartConstellation.innerHTML = '';
     const points = [
-      { x: 150, y: 0 }, // Topo
-      { x: 50, y: 200 }, // Base esquerda
-      { x: 250, y: 200 }, // Base direita
-      { x: 100, y: 100 }, // Meio esquerda
-      { x: 200, y: 100 } // Meio direita
+      { x: 150, y: 50 },  // Ponto superior do coração
+      { x: 100, y: 100 }, // Lado esquerdo inferior
+      { x: 50, y: 150 },  // Base esquerda
+      { x: 100, y: 200 }, // Ponta inferior esquerda
+      { x: 150, y: 150 }, // Centro inferior
+      { x: 200, y: 200 }, // Ponta inferior direita
+      { x: 250, y: 150 }, // Base direita
+      { x: 200, y: 100 }  // Lado direito inferior
     ];
     points.forEach(point => {
       const star = document.createElement('div');
       star.classList.add('star-dot');
       star.style.left = point.x + 'px';
       star.style.top = point.y + 'px';
-      pyramidConstellation.appendChild(star);
+      heartConstellation.appendChild(star);
     });
   }
 
@@ -207,7 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
     resetStars(true); // Estrelas fraquinhas
     universeCanvas.style.display = 'block';
     universeCanvas.classList.add('desert-mode');
-    createPyramidConstellation();
+    createHeartConstellation();
     msgIndex = 0;
     showStoryMessages();
     state = 'desert';
@@ -226,6 +231,22 @@ document.addEventListener('DOMContentLoaded', () => {
       dot.style.top = (50 + Math.sin(angle) * radius) + 'vh';
       galaxyScene.appendChild(dot);
     }
+    // Adicionar texto final e opções (estático e centralizado)
+    galaxyScene.innerHTML += `
+      <div id="finalMessage" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); animation: none;">
+        <div class="finalHeader">EU TE AMO MEU AMOR</div>
+        <div class="finalSub">Obrigado por tudo mesmo!! Obrigado por estar comigo</div>
+        <div class="finalFromTo">
+          <div>De: <strong>Matheus Eduardo (Zezinho)</strong></div>
+          <div>Para: <strong>Crisllayne Kerolayne (Minha cabrita)</strong></div>
+        </div>
+      </div>
+      <div id="choiceButtons" style="position: absolute; top: 60%; left: 50%; transform: translateX(-50%);">
+        <button class="choiceBtn" id="yesBtn">[ SIM ]</button> <span class="choiceText">ACEITA NAMORAR COMIGO</span> <button class="choiceBtn" id="noBtn">[ NÃO ]</button>
+      </div>
+    `;
+    document.getElementById('yesBtn').onclick = () => showInfiniteScene();
+    document.getElementById('noBtn').onclick = () => {};
   }
 
   // Mostrar cena galáxia
@@ -242,41 +263,39 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Estrelas cadentes com palavras e coração
- function showLoveStars() {
-  console.log('Showing love stars scene');
-  resetStars(); // Estrelas normais
-  universeCanvas.style.display = 'block';
-  universeCanvas.classList.remove('desert-mode');
-  loveStars.style.display = 'flex'; // Usaremos flex para centralizar
-  state = 'loveStars';
+  function showLoveStars() {
+    console.log('Showing love stars scene');
+    resetStars(); // Estrelas normais
+    universeCanvas.style.display = 'block';
+    universeCanvas.classList.remove('desert-mode');
+    loveStars.style.display = 'flex';
+    state = 'loveStars';
 
-  // Limpa conteúdo anterior
-  loveStars.innerHTML = `
-    <div id="finalMessage">
-      <div class="finalHeader">EU TE AMO MEU AMOR</div>
-      <div class="finalSub">Obrigado por tudo mesmo!! Obrigado por estar comigo</div>
-      <div class="finalFromTo">
-        <div>De: <strong>Matheus Eduardo (Zezinho)</strong></div>
-        <div>Para: <strong>Crisllayne Kerolayne (Minha cabrita)</strong></div>
+    loveStars.innerHTML = `
+      <div id="finalMessage">
+        <div class="finalHeader">EU TE AMO MEU AMOR</div>
+        <div class="finalSub">Obrigado por tudo mesmo!! Obrigado por estar comigo</div>
+        <div class="finalFromTo">
+          <div>De: <strong>Matheus Eduardo (Zezinho)</strong></div>
+          <div>Para: <strong>Crisllayne Kerolayne (Minha cabrita)</strong></div>
+        </div>
       </div>
-    </div>
-  `;
+    `;
 
-  // Quando música acabar, volta pro início
-  bgMusic.onended = () => {
-    console.log('Music ended, resetting to initial state');
-    loveStars.style.display = 'none';
-    universeCanvas.style.display = 'none';
-    state = 'initial';
-    eye.style.display = 'block';
-    bgMusic.currentTime = 0;
-  };
+    bgMusic.onended = () => {
+      console.log('Music ended, resetting to initial state');
+      loveStars.style.display = 'none';
+      universeCanvas.style.display = 'none';
+      state = 'initial';
+      eye.style.display = 'block';
+      bgMusic.currentTime = 0;
+    };
 
     function createMeteors() {
-      loveStars.innerHTML = ''; // Limpa meteores anteriores
-      const count = 10; // Menos meteores para evitar bagunça
+      loveStars.innerHTML = '';
+      const count = 10;
       for (let i = 0; i < count; i++) {
-        const isHeart = Math.random() < 0.1; // 10% chance de ser coração
+        const isHeart = Math.random() < 0.1;
         const element = document.createElement('div');
         element.classList.add(isHeart ? 'heart' : 'loveStar');
         element.textContent = isHeart ? 'ღ' : phrases[Math.floor(Math.random() * phrases.length)];
@@ -284,16 +303,15 @@ document.addEventListener('DOMContentLoaded', () => {
         element.style.top = Math.random() * window.innerHeight + 'px';
         element.style.fontSize = (Math.random() * 8 + 10) + 'px';
         element.style.animationDelay = (i * 0.4) + 's';
-        element.style.animationDuration = '6s'; // Mais lento
+        element.style.animationDuration = '6s';
         loveStars.appendChild(element);
         element.addEventListener('animationend', () => element.remove());
       }
     }
 
     createMeteors();
-    const meteorInterval = setInterval(createMeteors, 6000); // Novo lote a cada 6s
+    const meteorInterval = setInterval(createMeteors, 6000);
 
-    // Para o loop quando a música terminar
     bgMusic.onended = () => {
       console.log('Music ended, resetting to initial state');
       clearInterval(meteorInterval);
@@ -303,6 +321,29 @@ document.addEventListener('DOMContentLoaded', () => {
       eye.style.display = 'block';
       bgMusic.currentTime = 0;
     };
+  }
+
+  // Mostrar cena infinita
+  function showInfiniteScene() {
+    console.log('Showing infinite scene');
+    state = 'infinite';
+    let blinkInterval = setInterval(() => {
+      document.body.style.background = document.body.style.background === 'black' ? 'white' : 'black';
+      universeCanvas.style.background = universeCanvas.style.background === 'black' ? 'white' : 'black';
+    }, 500);
+    setTimeout(() => {
+      clearInterval(blinkInterval);
+      document.body.style.background = 'black';
+      universeCanvas.style.background = 'black';
+      universeCanvas.style.display = 'block';
+      galaxyScene.style.display = 'none';
+      resetStars();
+      animateUniverse();
+      galaxyScene.innerHTML = `<div id="infiniteMessage">AGORA SOMOS INFINITO!!</div>`;
+      galaxyScene.style.display = 'flex';
+      galaxyScene.style.justifyContent = 'center';
+      galaxyScene.style.alignItems = 'center';
+    }, 3000);
   }
 
   // Click handler para o olho
@@ -319,3 +360,6 @@ document.addEventListener('DOMContentLoaded', () => {
     showDesertScene();
   };
 });
+
+// Frases para estrelas cadentes
+const phrases = ["Te amo", "Minha deusa", "Eterno", "Juntos", "Amor"];
