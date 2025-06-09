@@ -166,15 +166,6 @@ body, html {
   background: transparent;
   display: none;
   z-index: 6;
-  animation: galaxySpin 10s linear infinite;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-
-@keyframes galaxySpin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
 }
 
 .galaxy-dot {
@@ -304,16 +295,29 @@ body, html {
   font-weight: bold;
   color: #ff00ff;
   text-shadow: 0 0 20px #ff00ff, 0 0 30px #ff00ff;
-  animation: infiniteSpin 10s linear infinite; /* Girando na cena infinita */
   text-align: center;
 }
 
-@keyframes infiniteSpin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+#finalScene {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: black;
+  display: none;
+  z-index: 11;
+  overflow-y: auto;
+  padding: 20px;
 }
 
-@keyframes infiniteGlow {
-  from { text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff; }
-  to { text-shadow: 0 0 20px #ff00ff, 0 0 40px #ff00ff; }
+#finalTypingMessage {
+  color: #00ff00;
+  font-size: 1.5rem;
+  text-align: center;
+  padding: 10px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  max-width: 80%;
+  margin: 0 auto;
 }
