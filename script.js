@@ -400,7 +400,7 @@ document.addEventListener('DOMContentLoaded', () => {
       Que saibamos cuidar um do outro
       que sejamos focados nos nossos objetivos
       Que saibamos curar as nossas crianças interiores juntos!!!
-      Que conseguimos ter conersas longas e profundas ❤
+      Que conseguimos ter conversas longas e profundas ❤
       Que tenhamos sempre compreensão um com o outro
       Que a gente faça pequenas coisas juntos!!!
       Que a gente cresça lado a lado
