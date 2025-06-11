@@ -10,9 +10,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const loveStars = document.getElementById('loveStars');
   const bgMusic = document.getElementById('bgMusic');
   const finalScene = document.getElementById('finalScene');
+  const newScene = document.getElementById('newScene');
 
-  if (!eye || !finalScene) {
-    console.error('Elementos não encontrados! Verifique o HTML. Eye:', !!eye, 'FinalScene:', !!finalScene);
+  if (!eye || !finalScene || !newScene) {
+    console.error('Elementos não encontrados! Verifique o HTML. Eye:', !!eye, 'FinalScene:', !!finalScene, 'NewScene:', !!newScene);
     return;
   }
 
@@ -94,9 +95,9 @@ document.addEventListener('DOMContentLoaded', () => {
   let universeAnimId;
   function animateUniverse() {
     drawUniverse();
-    if (state !== 'initial' && state !== 'boom' && state !== 'starFloating' && state !== 'infinite' && state !== 'finalMessage') {
+    if (state !== 'initial' && state !== 'boom' && state !== 'starFloating' && state !== 'infinite' && state !== 'finalMessage' && state !== 'newMessage') {
       universeAnimId = requestAnimationFrame(animateUniverse);
-    } else if (state === 'finalMessage') {
+    } else if (state === 'finalMessage' || state === 'newMessage') {
       universeAnimId = requestAnimationFrame(animateUniverse);
     } else {
       cancelAnimationFrame(universeAnimId);
@@ -380,15 +381,55 @@ document.addEventListener('DOMContentLoaded', () => {
     const typingInterval = setInterval(() => {
       if (index < finalMessage.length) {
         currentText += finalMessage[index];
-        finalScene.innerHTML = `<div id="finalTypingMessage">${currentText}</div>`; // Remove estilos inline para usar CSS
+        finalScene.innerHTML = `<div id="finalTypingMessage">${currentText}</div>`;
         index++;
         finalScene.scrollTop = finalScene.scrollHeight;
-        console.log('Typing:', currentText.substring(0, 20) + '...'); // Depuração
+        console.log('Typing:', currentText.substring(0, 20) + '...');
+      } else {
+        clearInterval(typingInterval);
+        setTimeout(showNewSceneContent, 1000); // Transição para a nova cena após 1 segundo
+      }
+    }, 95);
+  }
+
+  function showNewSceneContent() {
+    console.log('Showing new scene content');
+    state = 'newMessage';
+    finalScene.style.display = 'none'; // Esconde a cena anterior
+    newScene.style.display = 'block'; // Mostra o novo layer
+    universeCanvas.style.display = 'block'; // Garante que o canvas esteja visível
+    resetStars(true); // Estrelas coloridas
+    const newMessage = `
+      Eu não quero que a gente brigue
+      So quero que sejamos maduros
+      Que saibamos conversar sobre as coisas
+      Que saibamos cuidar um do outro
+      que sejamos focados nos nossos objetivos
+      Que saibamos curar as nossas crianças interiores juntos!!!
+      Que conseguimos ter conversas longas e profundas ❤
+      Que tenhamos sempre compreensão um com o outro
+      Que a gente faça pequenas coisas juntos!!!
+      Que a gente cresça lado a lado
+      Que nos amemos incondicionalmente e que não briguemos!
+      Porque eu realmente não quero perder você, minha Deusa Egipcia 💜💚
+    `;
+    let currentText = '';
+    let index = 0;
+    newScene.style.overflowY = 'auto';
+    newScene.style.height = '100vh';
+    newScene.style.padding = '20px';
+    const typingInterval = setInterval(() => {
+      if (index < newMessage.length) {
+        currentText += newMessage[index];
+        newScene.innerHTML = `<div id="newTypingMessage">${currentText}</div>`;
+        index++;
+        newScene.scrollTop = newScene.scrollHeight;
+        console.log('Typing:', currentText.substring(0, 20) + '...');
       } else {
         clearInterval(typingInterval);
         setTimeout(() => {
           window.close();
-        }, 5000);
+        }, 5000); // Fecha o site após 5 segundos
       }
     }, 95);
   }
