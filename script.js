@@ -21,7 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const ctx = universeCanvas.getContext('2d');
 
-  // Ajusta canvas ao tamanho da tela
   function resizeCanvas() {
     universeCanvas.width = window.innerWidth;
     universeCanvas.height = window.innerHeight;
@@ -29,7 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
   resizeCanvas();
   window.addEventListener('resize', resizeCanvas);
 
-  // Estrelas coloridas para a cena final
   class ColorStar {
     constructor() {
       this.x = Math.random() * universeCanvas.width;
@@ -52,7 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Estrelas para universo
   class Star {
     constructor(isDesert = false) {
       this.x = Math.random() * universeCanvas.width;
@@ -106,7 +103,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Frases universo
   const universeMessages = [
     "Feliz Dia dos Namorados, minha deusa egípcia!",
     "Quero te levar numa viagem pelo espaço, e não só isso —",
@@ -114,7 +110,6 @@ document.addEventListener('DOMContentLoaded', () => {
     "Que é exatamente o que eu sinto toda vez que estou com você."
   ];
 
-  // História para o deserto
   const storyMessages = [
     "Lembra, amor, daquele nosso primeiro encontro na CMDBR? Você toda meiga, com esse jeitinho fofo que só você tem… E eu, todo encantado, sem nem saber direito como me aproximar. Mas ali começou algo. Começou uma conexão que foi além das palavras.",
     "Foi só o começo… Aos poucos, a amizade virou desejo. E o desejo virou vontade — vontade de te ter por perto, de te conhecer de verdade, de te sentir, de mergulhar no universo que é você.",
@@ -350,17 +345,17 @@ document.addEventListener('DOMContentLoaded', () => {
       galaxyScene.style.display = 'flex';
       galaxyScene.style.justifyContent = 'center';
       galaxyScene.style.alignItems = 'center';
-      setTimeout(showFinalSceneContent, 5000); // Transição para a nova cena após 5 segundos
+      setTimeout(showFinalSceneContent, 5000);
     }, 3000);
   }
 
   function showFinalSceneContent() {
     console.log('Showing final scene content');
     state = 'finalMessage';
-    galaxyScene.style.display = 'none'; // Esconde a cena anterior
-    finalScene.style.display = 'block'; // Mostra o novo layer
-    universeCanvas.style.display = 'block'; // Garante que o canvas esteja visível
-    resetStars(true); // Estrelas coloridas
+    galaxyScene.style.display = 'none';
+    finalScene.style.display = 'block';
+    universeCanvas.style.display = 'block';
+    resetStars(true);
     const finalMessage = `
       Oi, meu amor! Que alegria saber que você aceitou meu pedido! 💖
       Eu sei que não sou perfeito e nem me considero a melhor pessoa do mundo, mas quero te provar todos os dias o quanto eu te amo, o quanto eu te quero, e o quanto meu coração é completamente seu.
@@ -384,10 +379,9 @@ document.addEventListener('DOMContentLoaded', () => {
         finalScene.innerHTML = `<div id="finalTypingMessage">${currentText}</div>`;
         index++;
         finalScene.scrollTop = finalScene.scrollHeight;
-        console.log('Typing:', currentText.substring(0, 20) + '...');
       } else {
         clearInterval(typingInterval);
-        setTimeout(showNewSceneContent, 1000); // Transição para a nova cena após 1 segundo
+        setTimeout(showNewSceneContent, 1000);
       }
     }, 95);
   }
@@ -395,10 +389,10 @@ document.addEventListener('DOMContentLoaded', () => {
   function showNewSceneContent() {
     console.log('Showing new scene content');
     state = 'newMessage';
-    finalScene.style.display = 'none'; // Esconde a cena anterior
-    newScene.style.display = 'block'; // Mostra o novo layer
-    universeCanvas.style.display = 'block'; // Garante que o canvas esteja visível
-    resetStars(true); // Estrelas coloridas
+    finalScene.style.display = 'none';
+    newScene.style.display = 'block';
+    universeCanvas.style.display = 'block';
+    resetStars(true);
     const newMessage = `
       Eu não quero que a gente brigue
       So quero que sejamos maduros
@@ -406,7 +400,7 @@ document.addEventListener('DOMContentLoaded', () => {
       Que saibamos cuidar um do outro
       que sejamos focados nos nossos objetivos
       Que saibamos curar as nossas crianças interiores juntos!!!
-      Que conseguimos ter conversas longas e profundas ❤
+      Que conseguimos ter conersas longas e profundas ❤
       Que tenhamos sempre compreensão um com o outro
       Que a gente faça pequenas coisas juntos!!!
       Que a gente cresça lado a lado
@@ -424,17 +418,23 @@ document.addEventListener('DOMContentLoaded', () => {
         newScene.innerHTML = `<div id="newTypingMessage">${currentText}</div>`;
         index++;
         newScene.scrollTop = newScene.scrollHeight;
-        console.log('Typing:', currentText.substring(0, 20) + '...');
       } else {
         clearInterval(typingInterval);
+        // Substituí window.close() por um fade out e pausa
+        newScene.style.transition = 'opacity 5s';
+        newScene.style.opacity = '0';
         setTimeout(() => {
-          window.close();
-        }, 5000); // Fecha o site após 5 segundos
+          newScene.style.display = 'none';
+          universeCanvas.style.display = 'none';
+          state = 'initial';
+          eye.style.display = 'block';
+          bgMusic.pause();
+          bgMusic.currentTime = 0;
+        }, 5000);
       }
     }, 95);
   }
 
-  // Adiciona evento de clique ao olho
   eye.addEventListener('click', () => {
     console.log('Eye clicked, state:', state);
     if (state !== 'initial') return;
@@ -449,5 +449,4 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// Frases para estrelas cadentes
 const phrases = ["Te amo", "Minha deusa", "Eterno", "Juntos", "Amor"];
